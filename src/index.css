@@ -1,21 +1,95 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body {
+  height: 100%;
+  margin: 0; /* Eliminar márgenes predeterminados */
+  padding: 0; /* Eliminar relleno predeterminado */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+.d-flex {
+  display: flex !important;
+}
 
-.contenedor {
-  width: 30%;
-  margin: 0 auto;
+.flex-column {
+  flex-direction: column !important;
+}
+
+.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+.flex-grow-1 {
+  flex-grow: 1 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+footer {
+  width: 100%;
   position: relative;
-  margin-top: 60px;
+  bottom: 0;
 }
+
+@media (max-width: 767px) {
+  /* Estilos para pantallas pequeñas (móviles) */
+  .container {
+      padding: 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Estilos para pantallas medianas (tablets) */
+  .container {
+      padding: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Estilos para pantallas grandes (escritorio) */
+  .container {
+      padding: 2px;
+  }
+}
+
+.ant-form-item-label {
+  line-height: normal; /* Ajusta la altura de línea para mejorar la alineación vertical */
+  margin-bottom: 10px; /* Añadir margen inferior para separar del campo de entrada */
+  width: 100%;
+  display: flex; 
+  justify-content: space-between; /* Para asegurar que el texto se justifique */
+}
+
+.ant-form-item-control {
+  line-height: normal; /* Ajusta la altura de línea para mejorar la alineación vertical */
+ display: block; 
+  width: 100%
+}
+
+.ant-form-item {
+  margin-bottom: 30px; /* Ajusta el margen inferior para mejorar el espaciado */
+}
+
+form {
+  background-color: #f2f2f2; /* Fondo del formulario */
+  padding: 40px; /* Espacio dentro del formulario */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra ligera */
+  text-align: justify;
+  max-width: 600px; /* Opcional: limita el ancho del formulario */
+  margin: 0 auto; /* Centra el formulario */
+}
+
+h2 {
+  text-align: center; /* Centrar el título */
+  margin-bottom: 20px; /* Añadir margen inferior al título */
+}
+

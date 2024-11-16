@@ -1,25 +1,19 @@
 import React from "react";
 import { Form, Input, Button, Select, DatePicker, message } from "antd";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
 
 // Definir las opciones de tipo de usuario
 const { Option } = Select;
 
-function Register() {
+function Update() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
-  // Función para manejar el registro
+  const location = useLocation();
+  const {nombre,apellido,fechaNacimiento,tipoUsuario,correo,key} = location.state || {}
   const onFinish = async (values) => {
-    debugger
-    console.log("Registro exitoso:", values);
-    // Validar que las contraseñas coinciden
-    if (values.password !== values.confirmPassword) {
-      message.error("Las contraseñas no coinciden");
-      return;
-    }
-
-    // Crear el objeto de usuario con los valores del formulario
+    console.log("modificacion exitosa:", values);
+   
     const userData = {
       nombre: values.nombre,
       apellido: values.apellido,
@@ -31,8 +25,8 @@ function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:4000/register", {
-        method: 'POST',
+      const response = await fetch(`http://localhost:4000/usuarios/${key}`, {
+        method: 'PUT',
         headers: {
           "Content-Type": 'application/json',
         },
@@ -40,16 +34,16 @@ function Register() {
       });
 
       if (response.ok) {
-        message.success("Registro exitoso");
-        navigate("/login"); // Redirigir a la página de login después del registro
+        message.success("modificacion exitosa");
+        navigate("/users"); // Redirigir a la página de login después del registro
       } else {
         const errorText = await response.text();
         console.log("Error Response:", errorText); // Verificar el error
         message.error(errorText);
       }
     } catch (error) {
-      console.error("Error al registrar:", error);
-      message.error("Hubo un error al registrar el usuario.");
+      console.error("Error al modificar:", error);
+      message.error("Hubo un error al modificar el usuario.");
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -58,7 +52,7 @@ function Register() {
 
   return (
     <div>
-      <h2>Registro de Usuario</h2>
+      <h2>Modificar</h2>
       <br></br>
       <Form
         form={form}
@@ -66,13 +60,14 @@ function Register() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         initialValues={{
-          tipoUsuario: "cliente", // Valor por defecto
+          tipoUsuario: "cliente",
         }}
         layout="vertical"
       >
         <Form.Item
           label="Nombre"
           name="nombre"
+          initialValue={nombre}
           rules={[{ required: true, message: "Por favor ingresa tu nombre" }]}
         >
           <Input />
@@ -81,6 +76,7 @@ function Register() {
         <Form.Item
           label="Apellido"
           name="apellido"
+          initialValue={apellido}
           rules={[{ required: true, message: "Por favor ingresa tu apellido" }]}
         >
           <Input />
@@ -102,6 +98,7 @@ function Register() {
         <Form.Item
           label="Tipo de Usuario"
           name="tipoUsuario"
+          initialValue={tipoUsuario}
           rules={[
             {
               required: true,
@@ -119,6 +116,7 @@ function Register() {
         <Form.Item
           label="Correo Electrónico"
           name="correo"
+          initialValue={correo}
           rules={[
             {
               required: true,
@@ -133,6 +131,7 @@ function Register() {
         <Form.Item
           label="Confirmar Correo"
           name="confirmCorreo"
+          initialValue={correo}
           dependencies={["correo"]}
           rules={[
             {
@@ -154,53 +153,14 @@ function Register() {
           <Input />
         </Form.Item>
 
-        <Form.Item
-          label="clave"
-          name="password"
-          rules={[
-            { required: true, message: "Por favor ingresa tu contraseña" },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          label="Confirmar clave"
-          name="confirmPassword"
-          dependencies={["password"]}
-          rules={[
-            { required: true, message: "Por favor confirma tu contraseña" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("Las contraseñas no coinciden")
-                );
-              },
-            }),
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
-            Registrarse
+            Actualizar
           </Button>
-        </Form.Item>
-
-        <Form.Item>
-          <Link to="/login">
-            <Button block>¿Ya tienes una cuenta? Inicia sesión</Button>
-          </Link>
         </Form.Item>
       </Form>
     </div>
   );
 }
 
-export default Register;
+export default Update;
